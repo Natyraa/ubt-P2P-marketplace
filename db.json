@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "password": "securepassword123",
+      "role": "Seller"
+    }
+  ],
+  "profiles": [],
+  "wishlist": []
+}

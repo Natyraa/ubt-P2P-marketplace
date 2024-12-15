@@ -3,17 +3,19 @@ import UserRole from "../enums/userRole.js";
 
 
 class Seller extends AbstractUser{
-  constructor(id ,name , email ) {
-    super(id , name , email , UserRole.SELLER)
+  constructor(id ,name , email , role , password ) {
+    super(id , name , email , UserRole.SELLER , password  )
+    this.role = role
+  }
+  checkPassword(inputPassword) {
+    return inputPassword === this.password
   }
   displayInfo() {
     return `Seller : ${this.name} , email : ${this.email}`
   }
 
 
-  performAction() {
-    console.log(`Seller: ${this.name} is listing products for sale`);
-  }
+ 
 }
 
 export default Seller;

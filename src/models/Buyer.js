@@ -1,16 +1,17 @@
 import AbstractUser from "./AbstractUser.js";
-import UserRole from "../enums/userRole.js";
+import UserRole from "../enums/userRole.js"
 
 class Buyer extends AbstractUser {
-  constructor(id , name , email  ) {
-    super(id ,name , email , UserRole.BUYER);
+  constructor(id , name , email , password ) {
+    super(id ,name , email , role , password , UserRole.BUYER);
+  }
+  checkPassword(inputPassword) {
+    return inputPassword === this.password
   }
   displayInfo() {
     return `Buyer: ${this.name} , Email : ${this.email} `
   }
-  performAction() {
-    console.log(`Buyer : ${this.name} is browsing products`);
-  }
+ 
 }
 export default Buyer;
 

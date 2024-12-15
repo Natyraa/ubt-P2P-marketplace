@@ -4,7 +4,7 @@ class UserView {
   static renderUser(user) {
     if (user instanceof AbstractUser) {
       console.log(user.displayInfo());
-      user.performAction();
+
     } else {
       console.log('Invalid User');
     }

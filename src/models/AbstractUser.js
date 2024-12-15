@@ -1,5 +1,5 @@
 class AbstractUser {
-  constructor( id ,name , email, role) {
+  constructor( id ,name , email, role , password) {
     if (this.constructor === AbstractUser) {
       throw new Error('Abstract Classes cannot be instantiated')
     }
@@ -7,15 +7,15 @@ class AbstractUser {
     this.name = name;
     this.email = email;
     this.role = role;
-    
+    this.password = password
+  }
+  checkPassword(inputPassword) {
+    throw new Error("Method 'checkPassword' must be implemented.");
   }
   //Abstract methods must be implemented in subclasses
   displayInfo() {
     throw new Error("Method 'displayInfo()' must be implemented.");
   }
-  performAction() {
-    throw new Error("Method 'performAction()' must be implemented");
-}
 }
 export default AbstractUser;
 
