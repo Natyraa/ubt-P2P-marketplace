@@ -2,8 +2,9 @@ import AbstractUser from "./AbstractUser.js";
 import UserRole from "../enums/userRole.js"
 
 class Buyer extends AbstractUser {
-  constructor(id , name , email , password ) {
-    super(id ,name , email , role , password , UserRole.BUYER);
+  constructor(id , name , email , password  ) {
+    super(id ,name , email , UserRole.BUYER , password );
+   
   }
   checkPassword(inputPassword) {
     return inputPassword === this.password

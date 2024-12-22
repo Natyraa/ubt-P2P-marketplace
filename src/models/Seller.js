@@ -3,9 +3,9 @@ import UserRole from "../enums/userRole.js";
 
 
 class Seller extends AbstractUser{
-  constructor(id ,name , email , role , password ) {
+  constructor(id ,name , email , password ) {
     super(id , name , email , UserRole.SELLER , password  )
-    this.role = role
+   
   }
   checkPassword(inputPassword) {
     return inputPassword === this.password

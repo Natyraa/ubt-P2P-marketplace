@@ -1,11 +1,46 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": 2,
       "name": "Jane Doe",
       "email": "janedoe@example.com",
-      "password": "securepassword123",
-      "role": "Seller"
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
     }
   ],
   "profiles": [],
