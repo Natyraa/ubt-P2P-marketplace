@@ -1,10 +1,11 @@
 import UserView from "./src/views/UserView.js";
 import UserController from "./src/controllers/UserController.js";
 import UserRole from "./src/enums/userRole.js";
-
+import ReviewController from "./src/controllers/ReviewController.js";
+import ReviewView from "./src/views/ReviewView.js";
 // Example: Create and display a user
 
-async function run() {
+async function createUser() {
   const userData = { 
     id: 2, 
     name: "Jane Doe", 
@@ -28,5 +29,22 @@ async function run() {
     UserView.renderError(error);
   }
 }
+async function createReview() {
+  const reviewData = {
+    id: 1,
+    reviewerId: 101,
+    revieweeId: 202,
+    rating: 5,
+    comment: "Excellent Product",
+    productId: 1001,
+  }
+  const createdReview = await ReviewController.createReview(reviewData)
 
-run();
+  if (createdReview) {
+    ReviewView.renderReview(createdReview)
+  } else {
+    return `Failed to create review`
+  }
+}
+//createUser();
+createReview()
