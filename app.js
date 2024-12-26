@@ -60,7 +60,29 @@ async function createReview() {
     return `Failed to create review`
   }
 }
-//createUser();
+async function createProduct() {
+  const productData = {
+    id: 101,
+    name: "Gaming Laptop",
+    description: "High-performance gaming laptop",
+    price: 1500,
+    category: "Electronics",
+    stockQuantity: 20,
+    brand: "Alienware",
+    warranty: 24,
+  };
+
+  const createdProduct = await ProductController.createProduct(productData);
+
+  if (createdProduct) {
+    ProductView.renderProduct(createdProduct);
+  } else {
+    const error = new Error("Unable to create product");
+    ProductView.renderError(error);
+  }
+}
+
+createProduct();
 createReview()
 
 async function run() {
