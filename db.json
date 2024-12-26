@@ -52,5 +52,61 @@
       "comment": "Excellent Product",
       "productId": 1001
     }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Gaming Laptop",
+      "description": "High-performance gaming laptop with advanced graphics capabilities.",
+      "price": 1500,
+      "category": "Electronics",
+      "stockQuantity": 10,
+      "brand": "Alienware",
+      "warranty": 24,
+      "processor": "Intel Core i9",
+      "ram": 32,
+      "storage": 1024
+    },
+    {
+      "id": 2,
+      "name": "Winter Jacket",
+      "description": "Waterproof and insulated winter jacket with hood.",
+      "price": 120,
+      "category": "Clothing",
+      "stockQuantity": 50,
+      "size": "M",
+      "material": "Polyester",
+      "waterproof": true,
+      "hooded": true
+    },
+    {
+      "id": 3,
+      "name": "Adjustable Office Desk",
+      "description": "Ergonomic office desk with height adjustment and storage drawers.",
+      "price": 350,
+      "category": "Furniture",
+      "stockQuantity": 10,
+      "dimensions": {
+        "length": 120,
+        "width": 60,
+        "height": 75
+      },
+      "weight": 25,
+      "material": "Wood",
+      "drawers": 3
+    },
+    {
+      "id": 4,
+      "name": "Smartphone",
+      "description": "High-end smartphone with advanced camera features.",
+      "price": 999,
+      "category": "Electronics",
+      "stockQuantity": 25,
+      "brand": "Apple",
+      "warranty": 12,
+      "processor": "A14 Bionic",
+      "ram": 8,
+      "storage": 256
+    }
   ]
 }
