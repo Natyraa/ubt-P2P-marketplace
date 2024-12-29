@@ -1,46 +1,11 @@
 {
   "users": [
     {
-      "id": 2,
+      "id": 1,
       "name": "Jane Doe",
       "email": "janedoe@example.com",
-      "role": "Buyer",
-      "password": "securepassword123"
-    },
-    {
-      "id": 2,
-      "name": "Jane Doe",
-      "email": "janedoe@example.com",
-      "role": "Buyer",
-      "password": "securepassword123"
-    },
-    {
-      "id": 2,
-      "name": "Jane Doe",
-      "email": "janedoe@example.com",
-      "role": "Buyer",
-      "password": "securepassword123"
-    },
-    {
-      "id": 2,
-      "name": "Jane Doe",
-      "email": "janedoe@example.com",
-      "role": "Buyer",
-      "password": "securepassword123"
-    },
-    {
-      "id": 2,
-      "name": "Jane Doe",
-      "email": "janedoe@example.com",
-      "role": "Buyer",
-      "password": "securepassword123"
-    },
-    {
-      "id": 2,
-      "name": "Jane Doe",
-      "email": "janedoe@example.com",
-      "role": "Buyer",
-      "password": "securepassword123"
+      "password": "securepassword123",
+      "role": "Seller"
     }
   ],
   "review": [
@@ -51,6 +16,144 @@
       "rating": 5,
       "comment": "Excellent Product",
       "productId": 1001
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 50.75,
+      "status": "completed",
+      "date": "2024-12-15T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "buyerId": 103,
+      "sellerId": 204,
+      "amount": 100,
+      "status": "pending",
+      "date": "2024-12-16T15:30:00Z"
+    },
+    {
+      "id": 3,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-15T22:01:09.767Z"
+    },
+    {
+      "id": 4,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-15T22:02:59.499Z"
+    },
+    {
+      "id": 5,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-15T22:04:22.827Z"
+    },
+    {
+      "id": 6,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-15T22:10:16.728Z"
+    },
+    {
+      "id": 7,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-16T13:15:30.662Z"
+    },
+    {
+      "id": 8,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-16T13:41:54.507Z"
+    },
+    {
+      "id": 9,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-16T13:43:00.675Z"
+    },
+    {
+      "id": 10,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-16T13:43:32.754Z"
+    },
+    {
+      "id": 11,
+      "buyerId": 105,
+      "sellerId": 208,
+      "amount": 300,
+      "status": "completed",
+      "date": "2024-12-16T14:48:43.178Z"
+    },
+    {
+      "id": 12,
+      "buyerId": 105,
+      "sellerId": 208,
+      "amount": 300,
+      "status": "completed",
+      "date": "2024-12-16T14:49:07.741Z"
+    },
+    {
+      "id": 13,
+      "buyerId": 105,
+      "sellerId": 208,
+      "amount": 300,
+      "status": "completed",
+      "date": "2024-12-16T14:50:03.355Z"
+    },
+    {
+      "id": 14,
+      "buyerId": 105,
+      "sellerId": 208,
+      "amount": 300,
+      "status": "completed",
+      "date": "2024-12-16T14:50:09.826Z"
+    },
+    {
+      "id": 15,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-20T17:03:14.470Z"
+    },
+    {
+      "id": 16,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-27T16:12:15.471Z"
+    },
+    {
+      "id": 17,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-27T16:25:01.451Z"
     }
   ]
 }
