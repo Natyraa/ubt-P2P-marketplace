@@ -8,6 +8,7 @@ import TransactionStatus from "./src/enums/transactionStatus.js";
 import TransactionController from "./src/controllers/TransactionController.js";
 import PurchaseTransaction from "./src/models/PurchaseTransaction.js";
 import RefundTransaction from "./src/models/RefundTransaction.js";
+import DigitalPurchaseTransaction from "./src/models/DigitalPurchaseTransaction.js";
 
 const app = express();
 app.use(express.json());
@@ -63,7 +64,44 @@ async function run() {
 
   const newRefund = refundTransaction.createTransaction();
   console.log("Refund Transaction:", newRefund);
+
+  // Create a Digital Purchase Transaction
+  try {
+    // Create a Digital Purchase Transaction
+    const digitalPurchase = new DigitalPurchaseTransaction(
+      101, // buyerId
+      202, // sellerId
+      50.0, // amount
+      { productName: "eBook", productId: "EB123" }, // productDetails
+      "completed", // status
+      "http://example.com/ebook-download" // downloadLink
+    );
+
+    // Validate the download link
+    digitalPurchase.validateDownloadLink();
+
+    // Simulate sending the download link via email
+    digitalPurchase.sendDownloadLinkToEmail("leartagjoni18@gmail.com");
+
+    // Create the transaction
+    const newDigitalPurchase = digitalPurchase.createTransaction();
+    console.log("Digital Purchase Transaction:", newDigitalPurchase);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
 }
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error("Error:", err.message);
+
+  res.status(500).json({
+    success: false,
+    message: "An unexpected error occurred.",
+    details: err.message,
+  });
+});
+
 
 // ====== RESTful API Endpoints ======
 
@@ -166,6 +204,42 @@ app.delete("/transactions/:id", (req, res) => {
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
+
+app.post("/digital-purchases", (req, res) => {
+  const { buyerId, sellerId, amount, productDetails, status, downloadLink, email } = req.body;
+
+  // Validate input
+  if (!buyerId || !sellerId || !amount || !productDetails || !downloadLink || !email) {
+    return res.status(400).json({ success: false, message: "Missing required fields" });
+  }
+
+  try {
+    // Create a new DigitalPurchaseTransaction
+    const digitalPurchase = new DigitalPurchaseTransaction(
+      buyerId,
+      sellerId,
+      amount,
+      productDetails,
+      status,
+      downloadLink
+    );
+
+    // Validate the download link and send it via email
+    digitalPurchase.validateDownloadLink();
+    digitalPurchase.sendDownloadLinkToEmail(email);
+
+    // Add to transactions
+    const newDigitalPurchase = digitalPurchase.createTransaction();
+
+    res.status(201).json({
+      success: true,
+      data: newDigitalPurchase,
+      message: "Digital Purchase Transaction created and email sent successfully",
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
 });
 
 
