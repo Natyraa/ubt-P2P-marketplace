@@ -8,8 +8,16 @@
       "role": "Seller"
     }
   ],
-  "profiles": [],
-  "wishlist": [],
+  "review": [
+    {
+      "id": 1,
+      "reviewerId": 101,
+      "revieweeId": 202,
+      "rating": 5,
+      "comment": "Excellent Product",
+      "productId": 1001
+    }
+  ],
   "transactions": [
     {
       "id": 1,
