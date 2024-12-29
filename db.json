@@ -175,6 +175,22 @@
       "amount": 150.5,
       "status": "completed",
       "date": "2024-12-20T17:03:14.470Z"
+    },
+    {
+      "id": 16,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-27T16:12:15.471Z"
+    },
+    {
+      "id": 17,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-27T16:25:01.451Z"
     }
   ],
   "products": [
