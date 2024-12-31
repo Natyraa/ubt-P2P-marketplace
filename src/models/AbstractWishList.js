@@ -1,9 +1,9 @@
 class AbstractWishList {
-  constructor(owner ) {
+  constructor( ) {
     if (this.constructor === AbstractWishList) {
       throw new Error("AbstractWishList is an abstract class and cannot be instantiated")
     } 
-    this.owner = owner;
+   
     this.items = []
   }
   addItem(item) {
