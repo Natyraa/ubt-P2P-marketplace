@@ -17,48 +17,53 @@ import DigitalPurchaseTransaction from "./src/models/DigitalPurchaseTransaction.
 const app = express();
 app.use(express.json());
 
+async function createUser() {
+  const userData = { 
+    id: 2, 
+    name: "Jane Doe", 
+    email: "janedoe@example.com", 
+    role: UserRole.BUYER, // Use enum for the role
+    password: "securepassword123" 
+  };
+  const createdUser = await UserController.createUser(userData);
+
+  // Render user information if user is created successfully
+  if (createdUser) {
+    createdUser.wishlist.addItem("Smartphone");
+    createdUser.wishlist.addItem("Laptop");
+    UserView.renderUser(createdUser);
+  
+  }
+
+  // If error, render the error message
+  else {
+    const error = new Error("Unable to create user");
+    UserView.renderError(error);
+  } 
+}
+createUser()
+async function createReview() {
+  const reviewData = {
+    id: 1,
+    reviewerId: 101,
+    revieweeId: 202,
+    rating: 5,
+    comment: "Excellent Product",
+    productId: 1001,
+  }
+  const createdReview = await ReviewController.createReview(reviewData)
+  
+  if (createdReview) {
+    ReviewView.renderReview(createdReview)
+  } else {
+    return `Failed to create review`
+  }
+}
+//createUser();
+createReview()
+
 async function run() {
-  async function createUser() {
-    const userData = { 
-      id: 2, 
-      name: "Jane Doe", 
-      email: "janedoe@example.com", 
-      role: UserRole.BUYER, // Use enum for the role
-      password: "securepassword123" 
-    };
-    const createdUser = await UserController.createUser(userData);
 
-    // Render user information if user is created successfully
-    if (createdUser) {
-      UserView.renderUser(createdUser);
-    }
-
-    // If error, render the error message
-    else {
-      const error = new Error("Unable to create user");
-      UserView.renderError(error);
-    } 
-  }
-
-  async function createReview() {
-    const reviewData = {
-      id: 1,
-      reviewerId: 101,
-      revieweeId: 202,
-      rating: 5,
-      comment: "Excellent Product",
-      productId: 1001,
-    }
-    const createdReview = await ReviewController.createReview(reviewData)
-    
-    if (createdReview) {
-      ReviewView.renderReview(createdReview)
-    } else {
-      return `Failed to create review`
-    }
-  }
-  //createUser();
-  createReview()
 
    // ====== Create and Log Transactions ======
   // 1. Create a Regular Transaction
@@ -276,5 +281,5 @@ app.post("/digital-purchases", (req, res) => {
 });
 
 
-run();
+//run();
 
