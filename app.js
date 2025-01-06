@@ -6,7 +6,8 @@ import UserRole from "./src/enums/userRole.js";
 import ReviewController from "./src/controllers/ReviewController.js";
 import ReviewView from "./src/views/ReviewView.js";
 // Example: Create and display a user
-
+import ProductController from "./src/controllers/ProductController.js";
+import ProductView from "./src/views/ProductView.js";
 import express from "express";
 import TransactionStatus from "./src/enums/transactionStatus.js";
 import TransactionController from "./src/controllers/TransactionController.js";
@@ -42,6 +43,21 @@ async function createUser() {
   } 
 }
 createUser()
+async function createProductList () {
+  const productData = {
+    id: 1,
+    productName: "Apple",
+    description: "This is an apple",
+    price: 14
+  }
+  const createProductList = await ProductController.createProductListing(productData)
+  if (createProductList) {
+    ProductView.renderProduct(createProductList)
+  } else {
+    const error = "Unable to create Product Listing"
+    ProductView.renderProductError(error)
+  }
+}
 async function createReview() {
   const reviewData = {
     id: 1,
@@ -59,9 +75,10 @@ async function createReview() {
     return `Failed to create review`
   }
 }
+
 //createUser();
 createReview()
-
+createProductList()
 async function run() {
 
 
@@ -281,5 +298,5 @@ app.post("/digital-purchases", (req, res) => {
 });
 
 
-//run();
+// run();
 

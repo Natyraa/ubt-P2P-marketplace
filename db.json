@@ -6,6 +6,13 @@
       "email": "janedoe@example.com",
       "password": "securepassword123",
       "role": "Seller"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
     }
   ],
   "review": [
@@ -16,6 +23,22 @@
       "rating": 5,
       "comment": "Excellent Product",
       "productId": 1001
+    },
+    {
+      "id": 1,
+      "reviewerId": 101,
+      "revieweeId": 202,
+      "rating": 5,
+      "comment": "Excellent Product",
+      "productId": 1001
+    }
+  ],
+  "product": [
+    {
+      "id": 1,
+      "productName": "Apple",
+      "description": "This is an apple",
+      "price": 14
     }
   ],
   "transactions": [
@@ -186,6 +209,14 @@
       "amount": 150.5,
       "status": "completed",
       "date": "2024-12-31T11:12:19.586Z"
+    },
+    {
+      "id": 22,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2024-12-31T11:50:27.449Z"
     }
   ]
 }
