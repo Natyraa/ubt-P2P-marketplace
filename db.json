@@ -217,6 +217,76 @@
       "amount": 150.5,
       "status": "completed",
       "date": "2024-12-31T11:50:27.449Z"
+    },
+    {
+      "id": 23,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-06T16:52:24.891Z"
+    },
+    {
+      "id": 24,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-06T18:44:18.930Z"
+    },
+    {
+      "id": 25,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-06T18:46:46.812Z"
+    },
+    {
+      "id": 26,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-06T18:52:09.500Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 2,
+      "userId": 102,
+      "message": "Your refund has been processed.",
+      "type": "sms",
+      "contactInfo": "1234567890",
+      "date": "2024-12-16T14:00:00Z"
+    },
+    {
+      "id": 3,
+      "userId": 101,
+      "message": "Your purchase has been completed!",
+      "date": "2025-01-06T16:52:24.942Z",
+      "emailAddress": "user@example.com"
+    },
+    {
+      "id": 4,
+      "userId": 102,
+      "message": "Your refund has been processed.",
+      "date": "2025-01-06T16:52:24.944Z",
+      "phoneNumber": "1234567890"
+    },
+    {
+      "id": 4,
+      "userId": 101,
+      "message": "Your purchase has been completed!",
+      "date": "2025-01-06T18:52:09.558Z",
+      "emailAddress": "user@example.com"
+    },
+    {
+      "id": 5,
+      "userId": 102,
+      "message": "Your refund has been processed.",
+      "date": "2025-01-06T18:52:09.560Z",
+      "phoneNumber": "1234567890"
     }
   ]
 }

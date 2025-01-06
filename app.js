@@ -14,6 +14,10 @@ import TransactionController from "./src/controllers/TransactionController.js";
 import PurchaseTransaction from "./src/models/PurchaseTransaction.js";
 import RefundTransaction from "./src/models/RefundTransaction.js";
 import DigitalPurchaseTransaction from "./src/models/DigitalPurchaseTransaction.js";
+import NotificationController from "./src/controllers/NotificationController.js";
+import NotificationType from "./src/enums/NotificationType.js";
+import TransactionalEmailNotification from "./src/models/TransactionalEmailNotification.js";
+
 
 const app = express();
 app.use(express.json());
@@ -82,22 +86,33 @@ createProductList()
 async function run() {
 
 
-   // ====== Create and Log Transactions ======
-  // 1. Create a Regular Transaction
   const transactionData = {
     buyerId: 101,
     sellerId: 202,
     amount: 150.5,
     status: TransactionStatus.COMPLETED, // Use enum
   };
-
+  
   const newTransaction = await TransactionController.createTransaction(transactionData);
   console.log("New Transaction Created:", newTransaction);
-
+  
+  // Send Transactional Email for Regular Transaction
+  try {
+    const regularTransactionEmail = new TransactionalEmailNotification(
+      transactionData.buyerId, // User ID
+      "Your regular transaction has been successfully completed!", // Message
+      "buyer@example.com", // Placeholder email
+      { id: newTransaction.id, amount: newTransaction.amount } // Transaction details
+    );
+    regularTransactionEmail.send();
+  } catch (error) {
+    console.error("Error sending email for Regular Transaction:", error.message);
+  }
+  
   // 2. Fetch and Display All Transactions
   const transactions = await TransactionController.getTransactions();
   console.log("All Transactions:", transactions);
-
+  
   // 3. Create a Purchase Transaction
   const purchaseTransaction = new PurchaseTransaction(
     101, // buyerId
@@ -105,10 +120,23 @@ async function run() {
     250.0, // amount
     { productName: "Laptop", productId: "LP123" } // productDetails
   );
-
+  
   const newPurchase = purchaseTransaction.createTransaction();
   console.log("Purchase Transaction:", newPurchase);
-
+  
+  // Send Transactional Email for Purchase Transaction
+  try {
+    const purchaseTransactionEmail = new TransactionalEmailNotification(
+      purchaseTransaction.buyerId, // User ID
+      `Your purchase of ${purchaseTransaction.productDetails.productName} has been completed!`, // Message
+      "buyer@example.com", // Placeholder email
+      { id: newPurchase.id, amount: newPurchase.amount } // Transaction details
+    );
+    purchaseTransactionEmail.send();
+  } catch (error) {
+    console.error("Error sending email for Purchase Transaction:", error.message);
+  }
+  
   // 4. Create a Refund Transaction
   const refundTransaction = new RefundTransaction(
     101, // buyerId
@@ -116,13 +144,25 @@ async function run() {
     250.0, // amount
     "Product Defective" // refundReason
   );
-
+  
   const newRefund = refundTransaction.createTransaction();
   console.log("Refund Transaction:", newRefund);
-
-  // Create a Digital Purchase Transaction
+  
+  // Send Transactional Email for Refund Transaction
   try {
-    // Create a Digital Purchase Transaction
+    const refundTransactionEmail = new TransactionalEmailNotification(
+      refundTransaction.buyerId, // User ID
+      `Your refund for the defective product has been processed. Reason: ${refundTransaction.refundReason}`, // Message
+      "buyer@example.com", // Placeholder email
+      { id: newRefund.id, amount: newRefund.amount } // Transaction details
+    );
+    refundTransactionEmail.send();
+  } catch (error) {
+    console.error("Error sending email for Refund Transaction:", error.message);
+  }
+  
+  // 5. Create a Digital Purchase Transaction
+  try {
     const digitalPurchase = new DigitalPurchaseTransaction(
       101, // buyerId
       202, // sellerId
@@ -131,20 +171,71 @@ async function run() {
       "completed", // status
       "http://example.com/ebook-download" // downloadLink
     );
-
+  
     // Validate the download link
     digitalPurchase.validateDownloadLink();
-
+  
     // Simulate sending the download link via email
     digitalPurchase.sendDownloadLinkToEmail("leartagjoni18@gmail.com");
-
+  
     // Create the transaction
     const newDigitalPurchase = digitalPurchase.createTransaction();
     console.log("Digital Purchase Transaction:", newDigitalPurchase);
+  
+    // Send Transactional Email for Digital Purchase Transaction
+    const digitalPurchaseEmail = new TransactionalEmailNotification(
+      digitalPurchase.buyerId, // User ID
+      `Your digital purchase of ${digitalPurchase.productDetails.productName} is completed. You can download it here: ${digitalPurchase.downloadLink}`, // Message
+      "leartagjoni18@gmail.com", // Email
+      { id: newDigitalPurchase.id, amount: newDigitalPurchase.amount } // Transaction details
+    );
+    digitalPurchaseEmail.send();
+  } catch (error) {
+    console.error("Error creating or sending email for Digital Purchase Transaction:", error.message);
+  }
+
+  try {
+    // 1. Create an Email Notification
+    const emailNotification = NotificationController.createNotification(
+      NotificationType.EMAIL, // Notification type
+      101,                    // User ID
+      "Your purchase has been completed!", // Message
+      "user@example.com"      // Contact info (email address)
+    );
+    console.log("Email Notification Created:", emailNotification);
+
+    // 2. Create an SMS Notification
+    const smsNotification = NotificationController.createNotification(
+      NotificationType.SMS,   // Notification type
+      102,                    // User ID
+      "Your refund has been processed.", // Message
+      "1234567890"            // Contact info (phone number)
+    );
+    console.log("SMS Notification Created:", smsNotification);
+
+    // 3. Fetch All Notifications
+    const notifications = NotificationController.getNotifications();
+    console.log("All Notifications:", notifications);
+
+    // 4. Fetch a Notification by ID
+    const notificationById = NotificationController.getNotificationById(1);
+    console.log("Notification by ID (1):", notificationById);
+
+    // 5. Delete a Notification by ID
+    const deleted = NotificationController.deleteNotification(1);
+    console.log("Notification with ID 1 Deleted:", deleted);
+
+    // 6. Verify Notifications After Deletion
+    const updatedNotifications = NotificationController.getNotifications();
+    console.log("Notifications After Deletion:", updatedNotifications);
   } catch (error) {
     console.error("Error:", error.message);
   }
 }
+
+//run();
+
+
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -297,6 +388,4 @@ app.post("/digital-purchases", (req, res) => {
   }
 });
 
-
-// run();
 

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Transaction from "../models/Transaction.js";
+import TransactionalEmailNotification from "../models/TransactionalEmailNotification.js";
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -27,18 +28,30 @@ class TransactionController extends Transaction {
   // Implementing abstract methods
   static createTransaction(transactionData) {
     const db = this.readDB();
-    if (!db.transactions) {
-      db.transactions = []; // Initialize if missing
-    }
-  
+    const transactions = db.transactions || [];
+
     const newTransaction = {
-      id: db.transactions.length + 1,
+      id: transactions.length + 1, // Auto-increment ID
       ...transactionData,
       date: new Date().toISOString(),
     };
-  
-    db.transactions.push(newTransaction);
+
+    transactions.push(newTransaction);
+    db.transactions = transactions;
     this.writeDB(db);
+
+    // Send a transactional email notification
+    const emailNotification = new TransactionalEmailNotification(
+      transactionData.buyerId, // User ID (buyer)
+      "Your transaction has been successfully created!", // Message
+      "buyer@example.com", // Placeholder email (connect real email later)
+      {
+        id: newTransaction.id,
+        amount: newTransaction.amount,
+      } // Transaction details
+    );
+    emailNotification.send();
+
     return newTransaction;
   }
 
