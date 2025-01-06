@@ -17,6 +17,8 @@ import DigitalPurchaseTransaction from "./src/models/DigitalPurchaseTransaction.
 import NotificationController from "./src/controllers/NotificationController.js";
 import NotificationType from "./src/enums/NotificationType.js";
 import TransactionalEmailNotification from "./src/models/TransactionalEmailNotification.js";
+import ShoppingCartController from "./src/controllers/ShoppingCartController.js";
+import CartType from "./src/enums/CartType.js";
 
 
 const app = express();
@@ -223,7 +225,9 @@ async function run() {
 
     // 5. Delete a Notification by ID
     const deleted = NotificationController.deleteNotification(1);
-    console.log("Notification with ID 1 Deleted:", deleted);
+    if (deleted) {
+      console.log("Notification with ID 1 Deleted.");
+    }
 
     // 6. Verify Notifications After Deletion
     const updatedNotifications = NotificationController.getNotifications();
@@ -231,6 +235,38 @@ async function run() {
   } catch (error) {
     console.error("Error:", error.message);
   }
+
+  try {
+    // 1. Add items to the cart
+    const cart1 = ShoppingCartController.addItemToCart(101, {
+      id: 2,
+      name: "Mouse",
+      price: 50,
+    });
+    console.log("Updated Cart (Standard):", cart1);
+
+    const cart2 = ShoppingCartController.addItemToCart(
+      102,
+      { id: 3, name: "Headphones", price: 200 },
+      CartType.PREMIUM
+    );
+    console.log("Updated Cart (Premium):", cart2);
+
+    // 2. Remove an item from the cart
+    const updatedCart = ShoppingCartController.removeItemFromCart(101, 2);
+    console.log("Cart After Removing Item:", updatedCart);
+
+    // 3. Calculate the total cost of the cart
+    const total = ShoppingCartController.calculateCartTotal(101);
+    console.log("Cart Total:", total);
+
+    // 4. Clear the cart
+    const cleared = ShoppingCartController.clearCart(101);
+    console.log("Cart Cleared:", cleared);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+
 }
 
 //run();

@@ -25,14 +25,15 @@ class NotificationController {
 
   // Get a notification by ID
   static getNotificationById(id) {
-    const notifications = this.getNotifications();
-    return notifications.find((notification) => notification.id === id);
+    const db = this.readDB();
+    const notification = db.notifications.find((notification) => notification.id === id);
+    return notification || null;
   }
 
   // Create a new notification (Email or SMS)
   static createNotification(notificationType, userId, message, contactInfo) {
-    const db = this.readDB();
-    const notifications = db.notifications || [];
+    const db = this.readDB();// Load data from db.json
+    const notifications = db.notifications || [];// Ensure notifications array exists
 
     // Determine notification type
     let notification;
@@ -47,29 +48,31 @@ class NotificationController {
     // Add notification to the database
     const newNotification = {
       id: notifications.length + 1, // Auto-increment ID
-      ...notification,
+      type,
+      userId,
+      message,
+      contactInfo,
+      date: new Date().toISOString(),
     };
 
-    notifications.push(newNotification);
-    db.notifications = notifications;
-
-    this.writeDB(db);
-    return newNotification;
+    notifications.push(newNotification);// Add to notifications array
+    db.notifications = notifications;// Update db.json data
+    this.writeDB(db);// Save changes to db.json
+    
+    return newNotification;// Return the created notification
   }
 
   // Delete a notification by ID
   static deleteNotification(id) {
     const db = this.readDB();
-    const notifications = db.notifications || [];
-    const index = notifications.findIndex((notification) => notification.id === id);
+    const index = db.notifications.findIndex((notification) => notification.id === id);
 
     if (index === -1) {
       throw new Error(`Notification with ID ${id} not found.`);
     }
 
-    notifications.splice(index, 1);
-    db.notifications = notifications;
-    this.writeDB(db);
+    db.notifications.splice(index, 1); // Remove notification from array
+    this.writeDB(db); // Save changes to db.json
 
     return true;
   }

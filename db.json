@@ -249,6 +249,30 @@
       "amount": 150.5,
       "status": "completed",
       "date": "2025-01-06T18:52:09.500Z"
+    },
+    {
+      "id": 27,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-06T20:52:51.711Z"
+    },
+    {
+      "id": 28,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-06T20:55:13.047Z"
+    },
+    {
+      "id": 29,
+      "buyerId": 101,
+      "sellerId": 202,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-06T21:07:06.719Z"
     }
   ],
   "notifications": [
@@ -287,6 +311,52 @@
       "message": "Your refund has been processed.",
       "date": "2025-01-06T18:52:09.560Z",
       "phoneNumber": "1234567890"
+    },
+    {
+      "id": 6,
+      "userId": 101,
+      "message": "Your purchase has been completed!",
+      "date": "2025-01-06T20:52:51.817Z",
+      "emailAddress": "user@example.com"
+    },
+    {
+      "id": 7,
+      "userId": 102,
+      "message": "Your refund has been processed.",
+      "date": "2025-01-06T20:52:51.821Z",
+      "phoneNumber": "1234567890"
+    },
+    {
+      "id": 8,
+      "userId": 101,
+      "message": "Your purchase has been completed!",
+      "date": "2025-01-06T20:55:13.143Z",
+      "emailAddress": "user@example.com"
+    },
+    {
+      "id": 9,
+      "userId": 102,
+      "message": "Your refund has been processed.",
+      "date": "2025-01-06T20:55:13.147Z",
+      "phoneNumber": "1234567890"
+    }
+  ],
+  "carts": [
+    {
+      "userId": 102,
+      "items": [
+        {
+          "id": 3,
+          "name": "Headphones",
+          "price": 200
+        },
+        {
+          "id": 3,
+          "name": "Headphones",
+          "price": 200
+        }
+      ],
+      "cartType": "premium"
     }
   ]
 }
