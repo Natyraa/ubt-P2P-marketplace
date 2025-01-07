@@ -246,34 +246,23 @@ async function run() {
   }
 
   try {
-    // 1. Add items to the cart
-    const cart1 = ShoppingCartController.addItemToCart(101, {
-      id: 2,
-      name: "Mouse",
-      price: 50,
+    // Add items to the cart
+    const cart = ShoppingCartController.addItemToCart(101, {
+      id: 1, // Product ID
+      name: "Laptop",
+      price: 1500,
     });
-    console.log("Updated Cart (Standard):", cart1);
-
-    const cart2 = ShoppingCartController.addItemToCart(
-      102,
-      { id: 3, name: "Headphones", price: 200 },
-      CartType.PREMIUM
-    );
-    console.log("Updated Cart (Premium):", cart2);
-
-    // 2. Remove an item from the cart
-    const updatedCart = ShoppingCartController.removeItemFromCart(101, 2);
-    console.log("Cart After Removing Item:", updatedCart);
-
-    // 3. Calculate the total cost of the cart
-    const total = ShoppingCartController.calculateCartTotal(101);
-    console.log("Cart Total:", total);
-
-    // 4. Clear the cart
-    const cleared = ShoppingCartController.clearCart(101);
-    console.log("Cart Cleared:", cleared);
+    console.log("Cart Before Checkout:", cart);
+  
+    // Perform checkout
+    const transaction = ShoppingCartController.checkoutCart(101);
+    console.log("Transaction from Checkout:", transaction);
+  
+    // Fetch and display the updated cart
+    const updatedCart = ShoppingCartController.getCart(101);
+    console.log("Cart After Checkout:", updatedCart);
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error("Error during checkout:", error.message);
   }
 
 }

@@ -3,6 +3,11 @@ import path from "path";
 import StandardShoppingCart from "../models/StandardShoppingCart.js";
 import PremiumShoppingCart from "../models/PremiumShoppingCart.js";
 import CartType from "../enums/CartType.js";
+import Product from "../models/Product.js";
+import Buyer from "../models/Buyer.js";
+import Seller from "../models/Seller.js";
+import TransactionController from "./TransactionController.js";
+import TransactionalEmailNotification from "../models/TransactionalEmailNotification.js";
 
 const dbFilePath = path.join(process.cwd(), "db.json");
 
@@ -19,13 +24,25 @@ class ShoppingCartController {
   // Get the cart for a user
   static getCart(userId) {
     const db = this.readDB();
+    const user = db.users.find((user) => user.id === userId);
+
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found.`);
+    }
+
     const cart = db.carts.find((cart) => cart.userId === userId);
-    return cart || { userId, items: [] }; // Return an empty cart if not found
+    return cart || { userId, items: [], cartType: CartType.STANDARD };
   }
 
   // Add an item to the user's cart
   static addItemToCart(userId, item, cartType = CartType.STANDARD) {
     const db = this.readDB();
+    const product = db.products.find((product) => product.id === item.id);
+
+    if (!product) {
+      throw new Error(`Product with ID ${item.id} not found.`);
+    }
+
     let cart = db.carts.find((cart) => cart.userId === userId);
 
     // If cart doesn't exist, create one
@@ -41,7 +58,7 @@ class ShoppingCartController {
         : new StandardShoppingCart(userId);
 
     shoppingCart.items = cart.items; // Load existing items
-    shoppingCart.addItem(item); // Add the new item
+    shoppingCart.addItem(product); // Add the new item
 
     cart.items = shoppingCart.items; // Update cart in DB
     this.writeDB(db);
@@ -103,6 +120,57 @@ class ShoppingCartController {
 
     shoppingCart.items = cart.items; // Load existing items
     return shoppingCart.calculateTotal();
+  }
+  
+//checkoutCart function description
+// Validates the Cart. Ensures the cart exists and is not empty.
+// Calculates the Total Amount. Sums up the prices of all items in the cart.
+// Creates a transaction in the database for the total cart value.
+// Sends a Notification. Sends a transactional email notification to the user.
+// Empties the cart once the checkout is complete.
+
+  static checkoutCart(userId) {
+    const db = this.readDB();
+    const cart = db.carts.find((cart) => cart.userId === userId);
+  
+    if (!cart || cart.items.length === 0) {
+      throw new Error("Cart is empty or not found.");
+    }
+  
+    // Calculate the total amount
+    const totalAmount = cart.items.reduce((total, item) => total + item.price, 0);
+  
+    // Simulate finding the seller ID dynamically
+    const sellerId = 202; // Placeholder seller ID; should be fetched based on products or logic
+  
+    // Create the transaction
+    const transactionData = {
+      buyerId: userId,
+      sellerId: sellerId,
+      amount: totalAmount,
+      status: "completed",
+    };
+  
+    const newTransaction = TransactionController.createTransaction(transactionData);
+    console.log("Transaction Created for Checkout:", newTransaction);
+  
+    // Send a transactional email notification
+    try {
+      const emailNotification = new TransactionalEmailNotification(
+        userId, // User ID
+        "Your checkout was successful!", // Message
+        "buyer@example.com", // Placeholder email (replace with logic to fetch user's email)
+        { id: newTransaction.id, amount: newTransaction.amount } // Transaction details
+      );
+      emailNotification.send();
+    } catch (error) {
+      console.error("Error sending email notification:", error.message);
+    }
+  
+    // Clear the cart after checkout
+    this.clearCart(userId);
+  
+    return newTransaction;
   }
 }
 
