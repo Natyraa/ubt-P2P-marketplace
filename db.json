@@ -13,6 +13,43 @@
       "email": "janedoe@example.com",
       "role": "Buyer",
       "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "PremiumBuyer",
+      "password": "securepassword123",
+      "premiumBenefits": "premium benefits"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "Buyer",
+      "password": "securepassword123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "role": "PremiumBuyer",
+      "password": "securepassword123",
+      "premiumBenefits": "premium benefits"
     }
   ],
   "review": [
@@ -31,9 +68,79 @@
       "rating": 5,
       "comment": "Excellent Product",
       "productId": 1001
+    },
+    {
+      "id": 1,
+      "reviewerId": 101,
+      "revieweeId": 202,
+      "rating": 5,
+      "comment": "Excellent Product",
+      "productId": 1001
+    },
+    {
+      "id": 1,
+      "reviewerId": 101,
+      "revieweeId": 202,
+      "rating": 5,
+      "comment": "Excellent Product",
+      "productId": 1001
+    },
+    {
+      "id": 1,
+      "reviewerId": 101,
+      "revieweeId": 202,
+      "rating": 5,
+      "comment": "Excellent Product",
+      "productId": 1001
+    },
+    {
+      "id": 1,
+      "reviewerId": 101,
+      "revieweeId": 202,
+      "rating": 5,
+      "comment": "Excellent Product",
+      "productId": 1001
+    },
+    {
+      "id": 1,
+      "reviewerId": 101,
+      "revieweeId": 202,
+      "rating": 5,
+      "comment": "Excellent Product",
+      "productId": 1001
     }
   ],
   "product": [
+    {
+      "id": 1,
+      "productName": "Apple",
+      "description": "This is an apple",
+      "price": 14
+    },
+    {
+      "id": 1,
+      "productName": "Apple",
+      "description": "This is an apple",
+      "price": 14
+    },
+    {
+      "id": 1,
+      "productName": "Apple",
+      "description": "This is an apple",
+      "price": 14
+    },
+    {
+      "id": 1,
+      "productName": "Apple",
+      "description": "This is an apple",
+      "price": 14
+    },
+    {
+      "id": 1,
+      "productName": "Apple",
+      "description": "This is an apple",
+      "price": 14
+    },
     {
       "id": 1,
       "productName": "Apple",

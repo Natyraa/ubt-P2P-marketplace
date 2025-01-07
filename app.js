@@ -25,12 +25,21 @@ const app = express();
 app.use(express.json());
 
 async function createUser() {
-  const userData = { 
+  // const userData = { 
+  //   id: 2, 
+  //   name: "Jane Doe", 
+  //   email: "janedoe@example.com", 
+  //   role: UserRole.BUYER, // Use enum for the role
+  //   password: "securepassword123" 
+  // };
+   const userData = { 
     id: 2, 
     name: "Jane Doe", 
     email: "janedoe@example.com", 
-    role: UserRole.BUYER, // Use enum for the role
-    password: "securepassword123" 
+    role: UserRole.PREMIUM_BUYER, // Use enum for the role
+    password: "securepassword123",
+    premiumBenefits: "premium benefits",
+
   };
   const createdUser = await UserController.createUser(userData);
 

@@ -3,30 +3,56 @@ import Buyer from '../models/Buyer.js';
 import Seller from '../models/Seller.js';
 import UserRole from "../enums/userRole.js";
 import UserException from "../exceptions/AuthenticationEsception.js";
-
+import PremiumBuyer from '../models/PremiumBuyer.js';
+import VIPBuyer from '../models/VipBuyer.js';
 const USERS_API = "http://localhost:3001/users"; // Your backend endpoint
+class UserFactory {
+  static createUser(userData) {
+    let user;
 
+    switch (userData.role) {
+      case UserRole.BUYER:
+        user = new Buyer(userData.id, userData.name, userData.email, userData.password);
+        break;
+      case UserRole.PREMIUM_BUYER:
+        if (!userData.premiumBenefits) {
+          throw new UserException("Premium benefits are required for Premium Buyer");
+        }
+        user = new PremiumBuyer(userData.id, userData.name, userData.email, userData.password, userData.premiumBenefits);
+        break;
+      case UserRole.VIP_BUYER:
+        if (!userData.premiumBenefits || !userData.vipSupportContact) {
+          throw new UserException("Premium benefits and VIP support contact are required for VIP Buyer");
+        }
+        user = new VIPBuyer(
+          userData.id,
+          userData.name,
+          userData.email,
+          userData.password,
+          userData.premiumBenefits,
+          userData.vipSupportContact
+        );
+        break;
+      case UserRole.SELLER:
+        user = new Seller(userData.id, userData.name, userData.email, userData.password);
+        break;
+      default:
+        throw new UserException("Invalid role specified");
+    }
+
+    return user;
+  }
+}
 class UserController {
   static async createUser(userData) {
     try {
-      let user;
-
       // Validate input data
-      if (!userData.name || !userData.email || !userData.password) {
-        throw new UserException("Name, email, and password are required");
+      if (!userData.name || !userData.email || !userData.password || !userData.role) {
+        throw new UserException("Name, email, password, and role are required");
       }
 
-      // Instantiate a class based on the role
-      switch (userData.role) {
-        case UserRole.BUYER:
-          user = new Buyer(userData.id, userData.name, userData.email, userData.password);
-          break;
-        case UserRole.SELLER:
-          user = new Seller(userData.id, userData.name, userData.email, userData.password);
-          break;
-        default:
-          throw new UserException("Invalid role specified");
-      }
+      // Create user using the UserFactory
+      const user = UserFactory.createUser(userData);
 
       // Send user data to the backend
       const response = await fetch(USERS_API, {
@@ -36,8 +62,10 @@ class UserController {
           id: user.id,
           name: user.name,
           email: user.email,
-          role: user.role,  // Hardcoded in Buyer/Seller
+          role: user.role,
           password: user.password,
+          premiumBenefits: user.premiumBenefits || undefined, // Include only if applicable
+          vipSupportContact: user.vipSupportContact || undefined, // Include only if applicable
         }),
       });
 
@@ -48,12 +76,7 @@ class UserController {
       const createdUserData = await response.json();
 
       // Re-instantiate the user with the correct class
-      let createdUser;
-      if (createdUserData.role === UserRole.BUYER) {
-        createdUser = new Buyer(createdUserData.id, createdUserData.name, createdUserData.email, createdUserData.password);
-      } else if (createdUserData.role === UserRole.SELLER) {
-        createdUser = new Seller(createdUserData.id, createdUserData.name, createdUserData.email, createdUserData.password);
-      }
+      const createdUser = UserFactory.createUser(createdUserData);
 
       // Return the newly instantiated user
       return createdUser;
@@ -62,44 +85,8 @@ class UserController {
       return null;
     }
   }
-
-  static async getUsers() {
-    try {
-      const response = await fetch(USERS_API);
-      if (!response.ok) {
-        throw new UserException("Failed to fetch users");
-      }
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      console.error("Error fetching users:", error.message);
-      return null;
-    }
-  }
-
-  static async loginUser(email, password) {
-    try {
-      const users = await this.getUsers();
-      const userData = users.find(user => user.email === email && user.password === password);
-      if (!userData) {
-        throw new UserException("Invalid email or password");
-      }
-
-      // Instantiate the correct class (Buyer or Seller)
-      let user;
-      if (userData.role === UserRole.BUYER) {
-        user = new Buyer(userData.id, userData.name, userData.email, userData.password);
-      } else if (userData.role === UserRole.SELLER) {
-        user = new Seller(userData.id, userData.name, userData.email, userData.password);
-      }
-
-      return user;
-    } catch (error) {
-      console.error("Error logging in user:", error.message);
-      return null;
-    }
-  }
 }
+
 
 export default UserController;
 

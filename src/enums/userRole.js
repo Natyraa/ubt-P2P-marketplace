@@ -2,7 +2,7 @@ const UserRole = Object.freeze({
   BUYER: "Buyer",
   SELLER: "Seller",
   PREMIUM_BUYER : "PremiumBuyer",
-  PREMIUM_SELLER: "PremiumSeller",
+  VIP_BUYER: "VipBuyer",
 });
 
 export default UserRole;
