@@ -1,12 +1,12 @@
-const Peer = require('simple-peer');
-//import Peer from 'simple-peer';
-
+// const Peer = require('simple-peer');
+import Peer from 'simple-peer';
+import wrtc from 'wrtc';
 class P2PController {
   static initiateConnection(user1, user2) {
     // Use WebRTC to establish a P2P connection
     console.log(`Initiating P2P connection between ${user1.name} and ${user2.name}`);
-    const peer1 = new Peer({ initiator: true });
-    const peer2 = new Peer();
+    const peer1 = new Peer({ initiator: true , wrtc });
+    const peer2 = new Peer({wrtc});
 
     peer1.on('signal', data => {
       // Send signaling data to user2
@@ -28,4 +28,5 @@ export default  P2PController;
  * peer1 and peer2 are instanced of the peer class , that was created using the simple-peer library 
  * peer1 is initialized with the option initiatiator : true , which means that this peer will be the one to initiate the connection . peer2 is created without the initiator option, so it will wait for  a signal from peer1 to establish the connection
  * peer1.on('signal) listens for the signal event on peer1 , which is triggered when peer1 has signaling data ready to be sent to the other pear , in this case peer2 . The data recieved in the signal event will containt important signalin information like offers or ICE candidatas that need to be sent to peer2
+ * In your code, you're using wrtc to make WebRTC work with the simple-peer library, which helps you set up a connection between two users (user1 and user2) to communicate directly with each other.
  */

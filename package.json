@@ -14,7 +14,8 @@
     "inquirer": "^12.3.0",
     "json-server": "^1.0.0-beta.3",
     "simple-peer": "^9.11.1",
-    "webrtc-adapter": "^9.0.1"
+    "webrtc-adapter": "^9.0.1",
+    "wrtc": "^0.4.7"
   },
   "keywords": []
 }

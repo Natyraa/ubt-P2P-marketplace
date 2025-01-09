@@ -13,3 +13,5 @@ install dependencies
  npm init -y
 npm install inquirer webrtc-adapter
 npm install simple-peer
+npm install -g node-pre-gyp
+npm install wrtc
