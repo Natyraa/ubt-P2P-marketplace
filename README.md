@@ -8,3 +8,8 @@ Analyze more static methods
 polymorphism - in displayInnfo - src/models/AbstractUser
 
 3 levels of inheritance AbstractUser/Buyer/PremiumBuyer
+
+install dependencies 
+ npm init -y
+npm install inquirer webrtc-adapter
+npm install simple-peer

@@ -2,7 +2,9 @@ import UserView from "./src/views/UserView.js";
 import UserController from "./src/controllers/UserController.js";
 import UserRole from "./src/enums/userRole.js";
 // Example: Create and display a user
-
+const inquirer = require('inquirer')
+import P2PController from "./src/controllers/p2pController.js";
+import P2PView  from "./src/views/p2pView.js";
 import ReviewController from "./src/controllers/ReviewController.js";
 import ReviewView from "./src/views/ReviewView.js";
 // Example: Create and display a user

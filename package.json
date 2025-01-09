@@ -1,7 +1,7 @@
 {
   "name": "oop_frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Abstract class is in src/models/AbstractUser\r Class is in src/models/Buyer.\r Enumartion is in src/enums/userRole.js\r Interface ????\r expection class in utils/USerNotFoundExcpetion\r Analyze more static methods",
   "main": "app.js",
   "type": "module",
   "scripts": {
@@ -11,6 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2",
-    "json-server": "^1.0.0-beta.3"
-  }
+    "inquirer": "^12.3.0",
+    "json-server": "^1.0.0-beta.3",
+    "simple-peer": "^9.11.1",
+    "webrtc-adapter": "^9.0.1"
+  },
+  "keywords": []
 }

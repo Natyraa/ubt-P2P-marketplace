@@ -6,6 +6,7 @@ import UserException from "../exceptions/AuthenticationEsception.js";
 import PremiumBuyer from '../models/PremiumBuyer.js';
 import VIPBuyer from '../models/VipBuyer.js';
 const USERS_API = "http://localhost:3001/users"; // Your backend endpoint
+
 class UserFactory {
   static createUser(userData) {
     let user;
