@@ -1,14 +1,30 @@
 import fs from "fs";
 import path from "path";
-import EmailNotification from "../models/EmailNotification.js";
-import SMSNotification from "../models/SMSNotification.js";
+import NotificationSubject from "../subjects/NotificationSubject.js";
+import EmailObserver from "../observers/EmailObserver.js";
+import SMSObserver from "../observers/SMSObserver.js";
 
 const dbFilePath = path.join(process.cwd(), "db.json");
 
 class NotificationController {
+  constructor() {
+    // Initialize the NotificationSubject and attach observers
+    this.notificationSubject = new NotificationSubject();
+    this.initializeObservers();
+  }
+
+  // Attach observers to the NotificationSubject
+  initializeObservers() {
+    const emailObserver = new EmailObserver();
+    const smsObserver = new SMSObserver();
+
+    this.notificationSubject.attach(emailObserver); // Use 'attach' to match Observer design pattern
+    this.notificationSubject.attach(smsObserver);
+  }
+
   // Read database from db.json
   static readDB() {
-    const data = fs.readFileSync(dbFilePath);
+    const data = fs.readFileSync(dbFilePath, "utf-8");
     return JSON.parse(data);
   }
 
@@ -31,35 +47,58 @@ class NotificationController {
   }
 
   // Create a new notification (Email or SMS)
-  static createNotification(notificationType, userId, message, contactInfo) {
-    const db = this.readDB();// Load data from db.json
-    const notifications = db.notifications || [];// Ensure notifications array exists
+  createNotification(notificationType, contactInfo, messageTemplate, context = {}) {
+    const db = NotificationController.readDB(); // Load data from db.json
+    const notifications = db.notifications || []; // Ensure notifications array exists
 
-    // Determine notification type
-    let notification;
-    if (notificationType === "email") {
-      notification = new EmailNotification(userId, message, contactInfo);
-    } else if (notificationType === "sms") {
-      notification = new SMSNotification(userId, message, contactInfo);
-    } else {
-      throw new Error("Invalid notification type. Must be 'email' or 'sms'.");
+    // Determine contactInfo (use email if available, fallback to phoneNumber)
+    const resolvedContactInfo = contactInfo.email || contactInfo.phoneNumber;
+
+    // Debugging: Log resolvedContactInfo
+    console.log("Resolved Contact Info:", resolvedContactInfo);
+
+    // Validate contactInfo
+    if (!resolvedContactInfo) {
+      console.error("Error: Contact info is missing (email and phoneNumber are both undefined).");
+      return null;
     }
 
-    // Add notification to the database
+    // Resolve message from the template using the context
+    const resolvedMessage = this.resolveMessageTemplate(messageTemplate, context);
+
+    // Notify observers
+    if (this.notificationSubject) {
+      this.notificationSubject.notifyObservers({
+        type: notificationType,
+        contactInfo: resolvedContactInfo,
+        message: resolvedMessage,
+      });
+    } else {
+      console.error("Error: notificationSubject is not initialized.");
+    }
+
+    // Add the new notification to the database
     const newNotification = {
       id: notifications.length + 1, // Auto-increment ID
-      type,
-      userId,
-      message,
-      contactInfo,
+      type: notificationType,
+      contactInfo: resolvedContactInfo,
+      message: resolvedMessage,
       date: new Date().toISOString(),
     };
 
-    notifications.push(newNotification);// Add to notifications array
-    db.notifications = notifications;// Update db.json data
-    this.writeDB(db);// Save changes to db.json
-    
-    return newNotification;// Return the created notification
+    notifications.push(newNotification); // Add to notifications array
+    db.notifications = notifications; // Update db.json data
+    NotificationController.writeDB(db); // Save changes to db.json
+
+    // Debugging: Log the created notification
+    console.log("New Notification Created:", newNotification);
+
+    return newNotification; // Return the created notification
+  }
+
+  // Helper method to resolve message templates
+  resolveMessageTemplate(template, context) {
+    return template.replace(/\{(\w+)\}/g, (_, key) => context[key] || "undefined");
   }
 
   // Delete a notification by ID

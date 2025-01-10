@@ -6,7 +6,7 @@ class StandardShoppingCart extends AbstractShoppingCart {
   }
 
   addItem(item) {
-    if (!item || !item.id || !item.name || !item.price) {
+    if (!item || !item.id || !item.name || !item.price ) {
       throw new Error("Item must have 'id', 'name', and 'price'.");
     }
     this.items.push(item);
