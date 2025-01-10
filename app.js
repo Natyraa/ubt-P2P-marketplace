@@ -10,7 +10,6 @@ import ReviewView from "./src/views/ReviewView.js";
 // Example: Create and display a user
 import ProductController from "./src/controllers/ProductController.js";
 import ProductView from "./src/views/ProductView.js";
-import express from "express";
 import TransactionStatus from "./src/enums/transactionStatus.js";
 import TransactionController from "./src/controllers/TransactionController.js";
 import PurchaseTransaction from "./src/models/PurchaseTransaction.js";
@@ -25,9 +24,6 @@ import EmailObserver from "./src/observers/EmailObserver.js";
 import SMSObserver from "./src/observers/SMSObserver.js";
 import CartType from "./src/enums/CartType.js";
 
-
-const app = express();
-app.use(express.json());
 
 async function createUser() {
   // const userData = { 
@@ -204,9 +200,12 @@ async function shoppingCartOperations(notificationController, buyer) {
   try {
     console.log("\n--- Shopping Cart Operations ---");
 
+    // Get the Singleton instance of ShoppingCartController
+    const shoppingCartController = ShoppingCartController.getInstance();
+
     // Step 1: Add an item to the cart
     console.log("Adding Item to Cart...");
-    const cart = ShoppingCartController.addItemToCart(buyer.id, {
+    const cart = shoppingCartController.addItemToCart(buyer.id, {
       id: 2,
       name: "Laptop",
       price: 1500,
@@ -214,28 +213,28 @@ async function shoppingCartOperations(notificationController, buyer) {
     console.log("Cart After Adding Item:", cart);
 
     // Step 2: Calculate total cart value
-    const total = ShoppingCartController.calculateCartTotal(buyer.id);
+    const total = shoppingCartController.calculateCartTotal(buyer.id);
     console.log("Cart Total:", `$${total}`);
 
     // Step 3: Get and display the cart details
-    const retrievedCart = ShoppingCartController.getCart(buyer.id);
+    const retrievedCart = shoppingCartController.getCart(buyer.id);
     console.log("Retrieved Cart Details:", retrievedCart);
 
     // Step 4: Remove an item from the cart (demonstrating functionality)
     console.log("Removing Item from Cart...");
-    ShoppingCartController.removeItemFromCart(buyer.id, 1);
+    shoppingCartController.removeItemFromCart(buyer.id, 1);
 
     // Step 5: Clear the cart (optional, demonstrating functionality)
     console.log("Clearing the Cart...");
-    ShoppingCartController.clearCart(buyer.id);
+    shoppingCartController.clearCart(buyer.id);
 
     // Step 6: Add items again and proceed to checkout
-    ShoppingCartController.addItemToCart(buyer.id, {
+    shoppingCartController.addItemToCart(buyer.id, {
       id: 1,
       name: "Laptop",
       price: 1500,
     });
-    const transaction = ShoppingCartController.checkoutCart(buyer.id);
+    const transaction = shoppingCartController.checkoutCart(buyer.id);
     console.log("Transaction After Checkout:", transaction);
 
     // Step 7: Notify observers about the successful checkout
@@ -247,26 +246,6 @@ async function shoppingCartOperations(notificationController, buyer) {
     });
   } catch (error) {
     console.error("Error during shopping cart operations:", error.message);
-  }
-}
-
-async function handleNotifications(notificationController, buyer) {
-  try {
-    // Notify observers for Email
-    notificationController.notificationSubject.notifyObservers({
-      type: "email",
-      contactInfo: buyer.email,
-      message: "Your purchase has been completed successfully!",
-    });
-
-    // Notify observers for SMS
-    notificationController.notificationSubject.notifyObservers({
-      type: "sms",
-      contactInfo: buyer.phoneNumber,
-      message: "Your refund has been processed. Thank you!",
-    });
-  } catch (error) {
-    console.error("Error handling notifications:", error.message);
   }
 }
 
@@ -326,295 +305,3 @@ async function run() {
 }
 
 run();
-
-
-// async function run() {
-//   const notificationController = new NotificationController(); // Initialize NotificationController
-
-//   try {
-//     // Fetch buyer data (replace with actual function to retrieve buyer details)
-//     const buyer = {
-//       id: 101,
-//       email: "buyer@example.com",
-//       phoneNumber: "1234567890",
-//     };
-
-//     // 1. Create a Regular Transaction
-//     const transactionData = {
-//       buyerId: buyer.id,
-//       sellerId: 202,
-//       amount: 150.5,
-//       status: TransactionStatus.COMPLETED, // Use enum
-//     };
-
-//     const newTransaction = await TransactionController.createTransaction(transactionData);
-//     console.log("New Transaction Created:", newTransaction);
-
-//     // Notify observers for a Regular Transaction
-//     notificationController.createNotification(
-//       "email",
-//       { email: buyer.email, phoneNumber: buyer.phoneNumber }, // Pass both email and phoneNumber
-//       "Your regular transaction has been successfully completed!"
-//     );
-
-//     // 2. Fetch and Display All Transactions
-//     const transactions = await TransactionController.getTransactions();
-//     console.log("All Transactions:", transactions);
-
-//     // 3. Create a Purchase Transaction
-//     const purchaseTransaction = new PurchaseTransaction(
-//       buyer.id, // Fetch buyerId dynamically
-//       202, // sellerId
-//       250.0, // amount
-//       { productName: "Laptop", productId: "LP123" } // productDetails
-//     );
-
-//     const newPurchase = purchaseTransaction.createTransaction();
-//     console.log("Purchase Transaction:", newPurchase);
-
-//     // Notify observers for a Purchase Transaction
-//     notificationController.createNotification(
-//       "email",
-//       buyer.email, // Fetch buyer's email dynamically
-//       `Your purchase of ${purchaseTransaction.productDetails.productName} has been completed!`
-//     );
-
-//     // 4. Create a Refund Transaction
-//     const refundTransaction = new RefundTransaction(
-//       buyer.id, // Fetch buyerId dynamically
-//       202, // sellerId
-//       250.0, // amount
-//       "Product Defective" // refundReason
-//     );
-
-//     const newRefund = refundTransaction.createTransaction();
-//     console.log("Refund Transaction:", newRefund);
-
-//     // Notify observers for a Refund Transaction
-//     notificationController.createNotification(
-//       "sms",
-//       { email: null, phoneNumber: buyer.phoneNumber }, // Only pass phoneNumber for SMS
-//       `Your refund for the defective product has been processed. Reason: ${refundTransaction.refundReason}`
-//     );
-
-//     // 5. Create a Digital Purchase Transaction
-//     const digitalPurchase = new DigitalPurchaseTransaction(
-//       buyer.id, // Fetch buyerId dynamically
-//       202, // sellerId
-//       50.0, // amount
-//       { productName: "eBook", productId: "EB123" }, // productDetails
-//       "completed", // status
-//       "http://example.com/ebook-download" // downloadLink
-//     );
-
-//     // Validate the download link
-//     digitalPurchase.validateDownloadLink();
-
-//     // Simulate sending the download link via email
-//     digitalPurchase.sendDownloadLinkToEmail(buyer.email);
-
-//     // Create the transaction
-//     const newDigitalPurchase = digitalPurchase.createTransaction();
-//     console.log("Digital Purchase Transaction:", newDigitalPurchase);
-
-//     // Notify observers for a Digital Purchase Transaction
-//     notificationController.createNotification(
-//       "email",
-//       buyer.email,
-//       `Your digital purchase of ${digitalPurchase.productDetails.productName} is completed. You can download it here: ${digitalPurchase.downloadLink}`
-//     );
-//   } catch (error) {
-//     console.error("Error:", error.message);
-//   }
-
-//   try {
-//     // 6. Shopping Cart Operations
-//     const cart = ShoppingCartController.addItemToCart(buyer.id, {
-//       id: 1, // Product ID
-//       name: "Laptop",
-//       price: 1500,
-//     });
-//     console.log("Cart Before Checkout:", cart);
-
-//     // Perform checkout
-//     const transaction = ShoppingCartController.checkoutCart(buyer.id);
-//     console.log("Transaction from Checkout:", transaction);
-
-//     // Fetch and display the updated cart
-//     const updatedCart = ShoppingCartController.getCart(buyer.id);
-//     console.log("Cart After Checkout:", updatedCart);
-//   } catch (error) {
-//     console.error("Error during checkout:", error.message);
-//   }
-
-//   // Example 1: Send Email Notification
-//   notificationController.createNotification(
-//     "email",
-//     buyer.email,
-//     "Your purchase has been completed successfully!"
-//   );
-
-//   // Example 2: Send SMS Notification
-//   notificationController.createNotification(
-//     "sms",
-//     buyer.phoneNumber,
-//     "Your refund has been processed. Thank you!"
-//   );
-// }
-
-// run();
-
-
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error("Error:", err.message);
-
-  res.status(500).json({
-    success: false,
-    message: "An unexpected error occurred.",
-    details: err.message,
-  });
-});
-
-
-// ====== RESTful API Endpoints ======
-
-// GET all transactions
-app.get("/transactions", (req, res) => {
-  const transactions = TransactionController.getTransactions();
-  res.status(200).json({
-    success: true,
-    data: transactions,
-    message: "Transactions retrieved successfully",
-  });
-});
-
-// GET a single transaction by ID
-app.get("/transactions/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const transaction = TransactionController.getTransactionById(id);
-  if (transaction) {
-    res.status(200).json({
-      success: true,
-      data: transaction,
-      message: "Transaction retrieved successfully",
-    });
-  } else {
-    res.status(404).json({
-      success: false,
-      message: "Transaction not found",
-    });
-  }
-});
-
-// POST create a new transaction
-app.post("/transactions", (req, res) => {
-  const { buyerId, sellerId, amount, status } = req.body;
-
-  // Validate status
-  if (!Object.values(TransactionStatus).includes(status)) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid transaction status",
-    });
-  }
-
-  if (!buyerId || !sellerId || !amount) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing required fields",
-    });
-  }
-
-  const newTransaction = TransactionController.createTransaction({
-    buyerId,
-    sellerId,
-    amount,
-    status,
-  });
-
-  res.status(201).json({
-    success: true,
-    data: newTransaction,
-    message: "Transaction created successfully",
-  });
-});
-
-// PUT update a transaction by ID
-app.put("/transactions/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const updatedTransaction = TransactionController.updateTransaction(id, req.body);
-
-  if (updatedTransaction) {
-    res.status(200).json({
-      success: true,
-      data: updatedTransaction,
-      message: "Transaction updated successfully",
-    });
-  } else {
-    res.status(404).json({
-      success: false,
-      message: "Transaction not found",
-    });
-  }
-});
-
-// DELETE a transaction by ID
-app.delete("/transactions/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const success = TransactionController.deleteTransaction(id);
-
-  if (success) {
-    res.status(204).send(); // No content for successful deletion
-  } else {
-    res.status(404).json({
-      success: false,
-      message: "Transaction not found",
-    });
-  }
-});
-
-// ====== Start the Server ======
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
-app.post("/digital-purchases", (req, res) => {
-  const { buyerId, sellerId, amount, productDetails, status, downloadLink, email } = req.body;
-
-  // Validate input
-  if (!buyerId || !sellerId || !amount || !productDetails || !downloadLink || !email) {
-    return res.status(400).json({ success: false, message: "Missing required fields" });
-  }
-
-  try {
-    // Create a new DigitalPurchaseTransaction
-    const digitalPurchase = new DigitalPurchaseTransaction(
-      buyerId,
-      sellerId,
-      amount,
-      productDetails,
-      status,
-      downloadLink
-    );
-
-    // Validate the download link and send it via email
-    digitalPurchase.validateDownloadLink();
-    digitalPurchase.sendDownloadLinkToEmail(email);
-
-    // Add to transactions
-    const newDigitalPurchase = digitalPurchase.createTransaction();
-
-    res.status(201).json({
-      success: true,
-      data: newDigitalPurchase,
-      message: "Digital Purchase Transaction created and email sent successfully",
-    });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-});
-
-

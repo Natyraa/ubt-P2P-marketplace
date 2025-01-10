@@ -578,6 +578,22 @@
       "amount": 150.5,
       "status": "completed",
       "date": "2025-01-10T13:33:08.780Z"
+    },
+    {
+      "id": 50,
+      "buyerId": 101,
+      "sellerId": 1,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-10T14:07:05.513Z"
+    },
+    {
+      "id": 51,
+      "buyerId": 101,
+      "sellerId": 1,
+      "amount": 150.5,
+      "status": "completed",
+      "date": "2025-01-10T14:17:51.051Z"
     }
   ],
   "notifications": [
@@ -1610,7 +1626,166 @@
       "contactInfo": "1234567890",
       "message": "Your refund has been processed. Thank you!",
       "date": "2025-01-10T13:33:08.840Z"
+    },
+    {
+      "id": 148,
+      "type": "email",
+      "contactInfo": "buyer@example.com",
+      "message": "Your regular transaction (ID: 50) for $150.5 has been successfully completed!",
+      "date": "2025-01-10T14:07:05.529Z"
+    },
+    {
+      "id": 149,
+      "type": "sms",
+      "contactInfo": "buyer@example.com",
+      "message": "Your regular transaction (ID: 50) for $150.5 has been successfully completed!",
+      "date": "2025-01-10T14:07:05.531Z"
+    },
+    {
+      "id": 150,
+      "type": "email",
+      "contactInfo": "buyer@example.com",
+      "message": "Your purchase of Laptop (ID: LP123) has been completed successfully!",
+      "date": "2025-01-10T14:07:05.533Z"
+    },
+    {
+      "id": 151,
+      "type": "sms",
+      "contactInfo": "buyer@example.com",
+      "message": "Your purchase of Laptop (ID: LP123) has been completed successfully!",
+      "date": "2025-01-10T14:07:05.535Z"
+    },
+    {
+      "id": 152,
+      "type": "email",
+      "contactInfo": "1234567890",
+      "message": "Your refund for Product Defective has been processed. Amount: $250.",
+      "date": "2025-01-10T14:07:05.539Z"
+    },
+    {
+      "id": 153,
+      "type": "sms",
+      "contactInfo": "1234567890",
+      "message": "Your refund for Product Defective has been processed. Amount: $250.",
+      "date": "2025-01-10T14:07:05.540Z"
+    },
+    {
+      "id": 154,
+      "type": "email",
+      "contactInfo": "buyer@example.com",
+      "message": "Your digital purchase of eBook (ID: EB123) is completed. You can download it here: http://example.com/ebook-download.",
+      "date": "2025-01-10T14:07:05.546Z"
+    },
+    {
+      "id": 155,
+      "type": "sms",
+      "contactInfo": "buyer@example.com",
+      "message": "Your digital purchase of eBook (ID: EB123) is completed. You can download it here: http://example.com/ebook-download.",
+      "date": "2025-01-10T14:07:05.548Z"
+    },
+    {
+      "id": 156,
+      "type": "email",
+      "contactInfo": "buyer@example.com",
+      "message": "Your purchase has been completed successfully!",
+      "date": "2025-01-10T14:07:05.561Z"
+    },
+    {
+      "id": 157,
+      "type": "sms",
+      "contactInfo": "buyer@example.com",
+      "message": "Your purchase has been completed successfully!",
+      "date": "2025-01-10T14:07:05.563Z"
+    },
+    {
+      "id": 158,
+      "type": "email",
+      "contactInfo": "1234567890",
+      "message": "Your refund has been processed. Thank you!",
+      "date": "2025-01-10T14:07:05.567Z"
+    },
+    {
+      "id": 159,
+      "type": "sms",
+      "contactInfo": "1234567890",
+      "message": "Your refund has been processed. Thank you!",
+      "date": "2025-01-10T14:07:05.568Z"
+    },
+    {
+      "id": 160,
+      "type": "email",
+      "contactInfo": "buyer@example.com",
+      "message": "Your regular transaction (ID: 51) for $150.5 has been successfully completed!",
+      "date": "2025-01-10T14:17:51.068Z"
+    },
+    {
+      "id": 161,
+      "type": "sms",
+      "contactInfo": "buyer@example.com",
+      "message": "Your regular transaction (ID: 51) for $150.5 has been successfully completed!",
+      "date": "2025-01-10T14:17:51.069Z"
+    },
+    {
+      "id": 162,
+      "type": "email",
+      "contactInfo": "buyer@example.com",
+      "message": "Your purchase of Laptop (ID: LP123) has been completed successfully!",
+      "date": "2025-01-10T14:17:51.072Z"
+    },
+    {
+      "id": 163,
+      "type": "sms",
+      "contactInfo": "buyer@example.com",
+      "message": "Your purchase of Laptop (ID: LP123) has been completed successfully!",
+      "date": "2025-01-10T14:17:51.074Z"
+    },
+    {
+      "id": 164,
+      "type": "email",
+      "contactInfo": "1234567890",
+      "message": "Your refund for Product Defective has been processed. Amount: $250.",
+      "date": "2025-01-10T14:17:51.077Z"
+    },
+    {
+      "id": 165,
+      "type": "sms",
+      "contactInfo": "1234567890",
+      "message": "Your refund for Product Defective has been processed. Amount: $250.",
+      "date": "2025-01-10T14:17:51.079Z"
+    },
+    {
+      "id": 166,
+      "type": "email",
+      "contactInfo": "buyer@example.com",
+      "message": "Your digital purchase of eBook (ID: EB123) is completed. You can download it here: http://example.com/ebook-download.",
+      "date": "2025-01-10T14:17:51.084Z"
+    },
+    {
+      "id": 167,
+      "type": "sms",
+      "contactInfo": "buyer@example.com",
+      "message": "Your digital purchase of eBook (ID: EB123) is completed. You can download it here: http://example.com/ebook-download.",
+      "date": "2025-01-10T14:17:51.085Z"
     }
   ],
-  "carts": []
+  "carts": [
+    {
+      "userId": 101,
+      "items": [
+        {
+          "id": 2,
+          "name": "Laptop",
+          "price": 1500,
+          "sellerId": 202
+        },
+        {
+          "id": 2,
+          "name": "Laptop",
+          "price": 1500,
+          "sellerId": 202
+        }
+      ],
+      "cartType": "standard"
+    }
+  ]
 }

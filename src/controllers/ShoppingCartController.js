@@ -9,6 +9,21 @@ import TransactionalEmailNotification from "../models/TransactionalEmailNotifica
 const dbFilePath = path.join(process.cwd(), "db.json");
 
 class ShoppingCartController {
+  static instance;
+
+  static getInstance() {
+    if (!ShoppingCartController.instance) {
+      ShoppingCartController.instance = new ShoppingCartController();
+    }
+    return ShoppingCartController.instance;
+  }
+
+  constructor() {
+    if (ShoppingCartController.instance) {
+      throw new Error("Use ShoppingCartController.getInstance() instead of new.");
+    }
+  }
+
   static readDB() {
     const data = fs.readFileSync(dbFilePath, "utf-8");
     return JSON.parse(data);
@@ -18,16 +33,14 @@ class ShoppingCartController {
     fs.writeFileSync(dbFilePath, JSON.stringify(data, null, 2));
   }
 
-  // Get the cart for a user
-  static getCart(userId) {
-    const db = this.readDB();
+  getCart(userId) {
+    const db = ShoppingCartController.readDB();
     const cart = db.carts.find((cart) => cart.userId === userId);
     return cart || { userId, items: [], cartType: CartType.STANDARD };
   }
 
-  // Add an item to the user's cart
-  static addItemToCart(userId, item, cartType = CartType.STANDARD) {
-    const db = this.readDB();
+  addItemToCart(userId, item, cartType = CartType.STANDARD) {
+    const db = ShoppingCartController.readDB();
     const product = db.product.find((product) => product.id === item.id);
 
     if (!product) {
@@ -49,14 +62,13 @@ class ShoppingCartController {
     shoppingCart.addItem(product);
 
     cart.items = shoppingCart.items;
-    this.writeDB(db);
+    ShoppingCartController.writeDB(db);
 
     return cart;
   }
 
-  // Remove an item from the user's cart
-  static removeItemFromCart(userId, itemId) {
-    const db = this.readDB();
+  removeItemFromCart(userId, itemId) {
+    const db = ShoppingCartController.readDB();
     const cart = db.carts.find((cart) => cart.userId === userId);
 
     if (!cart) {
@@ -72,14 +84,13 @@ class ShoppingCartController {
     shoppingCart.removeItem(itemId); // Remove the item
 
     cart.items = shoppingCart.items; // Update cart in DB
-    this.writeDB(db);
+    ShoppingCartController.writeDB(db);
 
     return cart;
   }
 
-  // Clear the user's cart
-  static clearCart(userId) {
-    const db = this.readDB();
+  clearCart(userId) {
+    const db = ShoppingCartController.readDB();
     const cartIndex = db.carts.findIndex((cart) => cart.userId === userId);
 
     if (cartIndex === -1) {
@@ -87,14 +98,13 @@ class ShoppingCartController {
     }
 
     db.carts.splice(cartIndex, 1); // Remove the cart
-    this.writeDB(db);
+    ShoppingCartController.writeDB(db);
 
     return true;
   }
 
-  // Calculate the total for the user's cart
-  static calculateCartTotal(userId) {
-    const db = this.readDB();
+  calculateCartTotal(userId) {
+    const db = ShoppingCartController.readDB();
     const cart = db.carts.find((cart) => cart.userId === userId);
 
     if (!cart) {
@@ -104,9 +114,8 @@ class ShoppingCartController {
     return cart.items.reduce((total, item) => total + item.price, 0);
   }
 
-  // Checkout the user's cart
-  static checkoutCart(userId) {
-    const db = this.readDB();
+  checkoutCart(userId) {
+    const db = ShoppingCartController.readDB();
     const cart = db.carts.find((cart) => cart.userId === userId);
 
     if (!cart || cart.items.length === 0) {
