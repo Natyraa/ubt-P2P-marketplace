@@ -34,4 +34,6 @@ class AbstractShoppingCart {
   }
   
   export default AbstractShoppingCart;
+
+  /**Abstrat Method is a class that serves as a blueprint for all the other subclasses that will extend from this . Javascript does not have built in Abstract classes , but they be simulated . An abstract class cannot be instantied directly hence the first condition . All the paramters and method initialized here must be implemented on the child subclasses , otherwise Javascript will throw an error. */
   

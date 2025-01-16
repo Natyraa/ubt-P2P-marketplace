@@ -21,3 +21,4 @@ class SMSNotification extends AbstractNotification {
 }
 
 export default SMSNotification;
+/**SMSNotification is a subclass that extends from AbstractNotificiaon which meand it inherits all the properties and methods initialized in the parent class . It has its own constructor that is invoked directly when creating an instance of this class , which then invokes the super , that is the constructor of the parent class . send method must be implemented here otherwise javascript will throw an error */

@@ -92,6 +92,7 @@ class UserController {
 export default UserController;
 
 
-/**When working with REST APIs that return plain objects (e.g., JSON), you may encounter situations where the objects don't have methods from their class, such as displayInfo(), because they are just plain JavaScript objects. To ensure your objects have the correct class methods, you need to re-instantiate them after receiving the data.
-
-Here's the step-by-step summary for handling this situation: */
+/**
+ * The userConteoller acts like a bridge between the models and the vie folder . It is used to creat a user with factory design pattern , When working with REST APIs that return plain objects (e.g., JSON), you may encounter situations where the objects don't have methods from their class, such as displayInfo(), because they are just plain JavaScript objects. To ensure your objects have the correct class methods, you need to re-instantiate them after receiving the data. So after creating a user with fetch , if we want to display it from the view folder . since with json api , the javascript objects are plain object they dont have methods hence we must re-instantatiare them again 
+Static method means it can be called wuthout instantiating the UserFactoryClass
+Here's the step-by-step summary for handling this situation: Here we also used an expception class which is userExpetion with multiple application across the controller */

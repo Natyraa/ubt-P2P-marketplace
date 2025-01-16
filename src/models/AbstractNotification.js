@@ -20,3 +20,6 @@ class AbstractNotification {
 }
 
 export default AbstractNotification;
+/**
+ * Abstract Notificination is an absract class which means , all the subclasses that will extend this class , will inherit all the properties and methods initialized here . Javascript does not support directly abstract classes directly , but there are some way to indirectly to invoke them . Abstract classes serve as a blueprint for other classes and cannot be instatied directly , otherwise javascript with throw an error . Hence the firdt if condition
+ */

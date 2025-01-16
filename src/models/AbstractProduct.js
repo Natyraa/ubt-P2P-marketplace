@@ -16,6 +16,9 @@ export default AbstractProduct
 
 /**AbstractProduct is an abstract class intended to serve as a base case for other types 
  * constructor method initialized a new object 
- * displaydetails is an abstract method in the class that must be inherited , or can be overriden(polymorphism)
+ * The constructor in an abstract class is used to initalize the common properties or perform common setup required by its sunclasses . It is typically invoked indirectly through a subclass constructor
+ * displaydetails is an abstract method i
+ *n the class that must be inherited , or can be overriden(polymorphism)
+ when a subclass is instantiated the constructor os the subclass automatically calls the constructor of the abstract class . 
  * Javascript does not jave built in support for abstract classes . However we can simulate abstract classes
  */

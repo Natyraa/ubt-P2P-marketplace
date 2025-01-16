@@ -33,3 +33,6 @@ class StandardShoppingCart extends AbstractShoppingCart {
 }
 
 export default StandardShoppingCart;
+
+
+/**Standard Shooping cart is a subclass of the AbstractShoppingCart , that has its own constructor which will beinvoked directly when creating an instance of this class , invoking then super here which is the constructor of the parent class . All the methods that were initialized in the parent class must be implemented otherwise javascript will throw an error */

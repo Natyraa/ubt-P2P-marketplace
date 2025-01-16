@@ -37,17 +37,17 @@ async function createUser() {
     id: 2, 
     name: "Jane Doe", 
     email: "janedoe@example.com", 
-    role: UserRole.PREMIUM_BUYER, // Use enum for the role
+    role: UserRole.SELLER, // Use enum for the role
     password: "securepassword123",
-    premiumBenefits: "premium benefits",
+    // premiumBenefits: "Priority Support",
 
   };
   const createdUser = await UserController.createUser(userData);
 
   // Render user information if user is created successfully
   if (createdUser) {
-    createdUser.wishlist.addItem("Smartphone");
-    createdUser.wishlist.addItem("Laptop");
+    // createdUser.wishlist.addItem("Smartphone");
+    // createdUser.wishlist.addItem("Laptop");
     UserView.renderUser(createdUser);
   
   }
@@ -60,10 +60,10 @@ async function createUser() {
   const user2 = { name: "John Smith", id: 3 }; // Sample second user
 
   // Use P2PView to display connection status before initiating the connection
-  P2PView.displayConnectionStatus(createdUser, user2);
+  //  P2PView.displayConnectionStatus(createdUser, user2);
 
-  // Use P2PController to initiate the connection
-  P2PController.initiateConnection(createdUser, user2);
+  // // Use P2PController to initiate the connection
+  // P2PController.initiateConnection(createdUser, user2);
 }
 createUser()
 async function createProductList () {
@@ -100,8 +100,9 @@ async function createReview() {
 }
 
 //createUser();
-createReview()
-createProductList()
+// createReview()
+// createProductList()
+async function run() {
 
 async function createRegularTransaction(notificationController, buyer) {
   const transactionData = {
@@ -303,5 +304,10 @@ async function run() {
     console.error("\nError during execution:", error.message);
   }
 }
+}
+// run()
 
-run();
+
+/**The run function orchestrates the entire process by calling various functions to simulate transactions and notify the buyer . It handles shopping cart operations like adding/removing items checking out , and notifying the buyer about succesffull action . It includes the buyer's details like id email and phoneNumber to show how notification are sent 
+ * createRegularTRansaction , createPurchaeTransaticon , createREfundTransation and createDigitialPurchaseTransacation
+*/

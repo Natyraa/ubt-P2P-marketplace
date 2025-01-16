@@ -14,4 +14,4 @@ class ReviewView {
 }
 export default ReviewView;
 
-/**Static methods , means it can be called on the class itself rather than an instance of the class */
+/**Static methods , means it can be called on the class itself rather than an instance of the class.. It is responsible for displaying information on the cli .  */

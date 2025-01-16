@@ -10,7 +10,7 @@ const dbFilePath = path.join(process.cwd(), "db.json");
 
 class ShoppingCartController {
   static instance;
-
+ //static nstance property will hold a single instance of the class
   static getInstance() {
     if (!ShoppingCartController.instance) {
       ShoppingCartController.instance = new ShoppingCartController();
@@ -158,3 +158,15 @@ class ShoppingCartController {
 }
 
 export default ShoppingCartController;
+
+/**SingletonPAttern ensures that there is only one ShoppinCartController instance for managing the shoppin cart throught the entire application . All cart oprations are handled by the singleton instance , enduring consistent data and avoiding multiple instance of the cart logic  
+ * getInstance() method check where the intance property already has a value (if an instance of the class has already been created . If the instance doesnt exist , it created a new ShoppingVartController instance and assigns it to ShoppingCartController.instance . )
+ * Single Instance Per Application Session: In the Singleton Pattern, the instance of the class (ShoppingCartController in this case) is shared across the entire application. As long as the app is running, the same instance will be used.
+
+Behavior for User Login/Logout:
+
+If a user logs in, the shopping cart is created or retrieved as part of the singleton instance.
+If the user adds items to the cart, they will be added to the same instance.
+If the user logs out, depending on your app’s logic, you may want to clear or reset the cart instance (especially if the cart should be specific to a particular user session).
+If the user logs in again, the same instance of the ShoppingCartController is used, and the cart will display any previous items (unless it was reset/cleared when the user logged out).
+*/

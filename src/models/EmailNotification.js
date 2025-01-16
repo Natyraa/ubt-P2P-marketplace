@@ -21,3 +21,4 @@ class EmailNotification extends AbstractNotification {
 }
 
 export default EmailNotification;
+/**EmailNotification is a subclass that inherits all the properties and methods initialized form the AbstractNotification . This subclass has a constrcutor that will directly invoked when creating an instance of this subclass , which then will invoke indirectly the constructor of the abstract class , which is super here . The method send must be implemented here and in ebery subclass that extends this parent class otherwise javascript will throw an error */

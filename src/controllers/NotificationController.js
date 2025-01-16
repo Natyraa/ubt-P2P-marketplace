@@ -118,3 +118,7 @@ class NotificationController {
 }
 
 export default NotificationController;
+
+/**In summary the NotificationController class manages creating retriving all notification , a specific notificication and deleting notificications . It also handles sendeing those notificiation via observers (EmailObserver and SMSObserver) 
+ * It uses a NotificationSubject to notify the observers whenever a new notification is created and dtores the notificaiton in a db.json file for persistence
+*/

@@ -9,9 +9,7 @@ class AbstractUser {
     this.role = role;
     this.password = password
   }
-  checkPassword(inputPassword) {
-    throw new Error("Method 'checkPassword' must be implemented.");
-  }
+ 
   //Abstract methods must be implemented in subclasses
   displayInfo() {
     throw new Error("Method 'displayInfo()' must be implemented.");
@@ -19,12 +17,7 @@ class AbstractUser {
 }
 export default AbstractUser;
 
-/**This is an abstract class intented to serve as a base class for other user types 
- * Constructor method initializes a new object
- *  if (this.constructor === AbstractUser) {
-      throw new Error('Abstract Classes cannot be instantiated')
-    }  - this is an abstract class enforcement , which assures that AbstractUser class cannot be directly instantiated 
-      Abstract classes are meant to be a a blueprint for other classes and not used directly
-      displayMethod() is a  abstract method in the class that can be inherited or overridden . This pattern forces the sublass to provide an implementation for the method .
-      Javascript does not have built in support for abstract classes in the way languages have . However we can simulate abstract classes 
+/**The AbstractUser is is an abstract class which is used as a blueprint for other classes . The if condtion checks if the AbstractClass is being instantiated directly . In Javascript you cannot instantiate abstract classes , so if this is true , it will throw an error .THis enforces that the AbstractUser can only be extendes , not used as a base object . The contructor intializes the properties which are id , name , email , role , password , with the values provided when an instance is created 
+ * The displayInfo method is an abstract method and must be implmented in any class that extends AbstractUser . So the Buyer and Seller Class is where we must implement dispayInfo . Both Premium Buyer and Vip Buyer inhrerit displayInfo from the Buyer . When buyer implement dispayinfo and sublass of Buyer will inherit the displayInfo , unledd you want to change or extend its behaviur. 
 */
+

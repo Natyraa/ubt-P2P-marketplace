@@ -1,32 +1,98 @@
-// const Peer = require('simple-peer');
 import Peer from 'simple-peer';
 import wrtc from 'wrtc';
+import readline from 'readline';
+
 class P2PController {
   static initiateConnection(user1, user2) {
-    // Use WebRTC to establish a P2P connection
-    console.log(`Initiating P2P connection between ${user1.name} and ${user2.name}`);
-    const peer1 = new Peer({ initiator: true , wrtc });
-    const peer2 = new Peer({wrtc});
+    console.log(`[INFO] Initiating P2P connection between ${user1.name} and ${user2.name}`);
 
-    peer1.on('signal', data => {
-      // Send signaling data to user2
+    const peer1 = new Peer({ initiator: true, wrtc });
+    const peer2 = new Peer({ wrtc });
+
+    // Create readline interfaces for both users
+    const rl1 = this.createReadlineInterface(user1);
+    const rl2 = this.createReadlineInterface(user2);
+
+    // Signal handling
+    this.setupSignalHandling(peer1, peer2);
+
+    // Message handling
+    this.setupMessageHandling(peer1, user1, rl1);
+    this.setupMessageHandling(peer2, user2, rl2);
+
+    // Clean up and graceful shutdown
+    this.setupGracefulShutdown(peer1, peer2, rl1, rl2);
+  }
+
+  // Function to create readline interface
+  static createReadlineInterface(user) {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    rl.setPrompt(`${user.name}: `);
+    rl.prompt();
+    return rl;
+  }
+
+  // Function to handle signaling data
+  static setupSignalHandling(peer1, peer2) {
+    peer1.on('signal', (data) => {
+      console.log('[SIGNAL] Sending signal to peer2');
+      peer2.signal(data);
     });
 
-    peer2.on('signal', data => {
-      // Send signaling data to user1
+    peer2.on('signal', (data) => {
+      console.log('[SIGNAL] Sending signal to peer1');
+      peer1.signal(data);
     });
-    // Placeholder for WebRTC code here
+  }
+
+  // Function to handle message input and output
+  static setupMessageHandling(peer, user, rl) {
+    rl.on('line', (input) => {
+      if (input === 'exit') {
+        peer.destroy();
+        rl.close();
+        console.log(`${user.name} disconnected.`);
+        process.exit();
+      }
+
+      const messageData = JSON.stringify({ sender: user.name, message: input });
+      peer.send(messageData);
+      console.log(`[SENT] ${user.name}: ${input}`);
+      rl.prompt();
+    });
+
+    peer.on('data', (data) => {
+      try {
+        const { sender, message } = JSON.parse(data.toString());
+        console.log(`[RECEIVED] ${sender} says: ${message}`);
+        rl.prompt();
+      } catch (error) {
+        console.error('[ERROR] Failed to process incoming message:', error);
+      }
+    });
+  }
+
+  // Graceful shutdown on SIGINT
+  static setupGracefulShutdown(peer1, peer2, rl1, rl2) {
+    process.on('SIGINT', () => {
+      console.log('[INFO] Closing connections and exiting...');
+      peer1.destroy();
+      peer2.destroy();
+      rl1.close();
+      rl2.close();
+      process.exit();
+    });
   }
 }
 
-export default  P2PController;
+// Example usage
+const jane = { name: 'Jane Doe' };
+const john = { name: 'John Smith' };
 
-/**class P2PController encapsulates behavior related to P2P connection 
- * Static methot initateConnectio meand that the method belongs to the class itself not to instances of the class . it can be called directly on the class like P2PCONTROLLER.initateConnection without creating an instance of the P2PCONTROLLER
- * initiateConecction is a method that takes two parameters usser1 and user2 . There are expected to be objects that represent users (in this case the two users involved in the P2P connectioon)
- * The updated version of your code imports simple-peer, a popular library that simplifies WebRTC connections in JavaScript. The simple peer library is imported using require . It simplifies the process of creating WebRTV coneections between peers . 
- * peer1 and peer2 are instanced of the peer class , that was created using the simple-peer library 
- * peer1 is initialized with the option initiatiator : true , which means that this peer will be the one to initiate the connection . peer2 is created without the initiator option, so it will wait for  a signal from peer1 to establish the connection
- * peer1.on('signal) listens for the signal event on peer1 , which is triggered when peer1 has signaling data ready to be sent to the other pear , in this case peer2 . The data recieved in the signal event will containt important signalin information like offers or ICE candidatas that need to be sent to peer2
- * In your code, you're using wrtc to make WebRTC work with the simple-peer library, which helps you set up a connection between two users (user1 and user2) to communicate directly with each other.
- */
+// Uncomment the line below to initiate connection
+// P2PController.initiateConnection(jane, john);
+
+export default P2PController;

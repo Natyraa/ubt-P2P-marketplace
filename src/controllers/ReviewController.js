@@ -45,3 +45,5 @@ class ReviewController {
 }
 
 export default ReviewController;
+
+/**ReviewController is a class that is used to create a review , since we are working with rest api , the review is stored there as a plain javascript object , hence id does have oop properties , that is why when we return the review from the api , we must re-instated is from the ProductReview class */

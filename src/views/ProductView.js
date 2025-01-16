@@ -13,3 +13,7 @@ class ProductView{
   }
 }
 export default ProductView;
+
+/**THis is a class , that is responsible for rendering product information and handling product-related errors
+ * static method means that this can be instantiated without creating a class , can be called directly
+ */
